@@ -109,10 +109,10 @@ async function tryLogin() {
     }
 }
 
-function clearLocalStorage() {
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("userStrings");
-    localStorage.removeItem("numStrings");
-}
+// function clearLocalStorage() {
+//     localStorage.removeItem("currentUser");
+//     localStorage.removeItem("userStrings");
+//     localStorage.removeItem("numStrings");
+// }
 
-window.onload = clearLocalStorage;
+// window.onload = clearLocalStorage;
