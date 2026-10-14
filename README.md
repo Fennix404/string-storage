@@ -12,3 +12,5 @@ API Gateway - HTTP API that is fittingly the gateway to the lambda func. There's
 Frontend;
 HTML - comes with a login page and dashbord... hubba hubba...
 JavaScript - one for the login and one for the dashboard. filled with async functions that do the things you'd expect
+
+el link: https://main.d2kb5cw3bw7uzb.amplifyapp.com/
