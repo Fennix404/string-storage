@@ -8,7 +8,20 @@
 <h1 id = "title"> Dashboard </h1>
 
 <p> WELGOME</p>
-<p id = "sample"> - </p>
+<p id = "status"> - </p>
+
+<div>
+	<p> Your Strings: </p>
+	<p id = "strings"> - </p>
+
+</div>
+
+<form id = "newStringForm">
+	Add a new string here! <input type = "text" id = "newString">
+	<button type="button" id="addStringButton" onclick="addString()"> Add String </button>
+</form>
+
+<button type="button" id="logoutButton" onclick="logout()"> Log Out </button>
 
 <script src="scriptDashboard.js"></script>
 

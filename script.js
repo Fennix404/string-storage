@@ -1,5 +1,5 @@
 
-const SIGNUP_LOGIN_API_URL = "https://s084y4k0bj.execute-api.us-east-1.amazonaws.com/auth";
+const API_URL = "https://s084y4k0bj.execute-api.us-east-1.amazonaws.com/auth";
 
 const form = document.getElementById("form");
 const message = document.getElementById("message");
@@ -9,7 +9,7 @@ async function trySignup() {
         const username = document.getElementById("user").value;
         const password = document.getElementById("pass").value;
 
-        const response = await fetch(SIGNUP_LOGIN_API_URL, {
+        const response = await fetch(API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -61,7 +61,7 @@ async function tryLogin() {
         const username = document.getElementById("user").value;
         const password = document.getElementById("pass").value;
 
-        const response = await fetch(SIGNUP_LOGIN_API_URL, {
+        const response = await fetch(API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
