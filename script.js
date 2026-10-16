@@ -6,6 +6,8 @@ const message = document.getElementById("message");
 
 async function trySignup() {
     try {
+        message.innerHTML = "Signing up...";
+
         const username = document.getElementById("user").value;
         const password = document.getElementById("pass").value;
 
@@ -20,23 +22,25 @@ async function trySignup() {
         const data = await response.json();
 
         if (response.status === 201) {
-            message.innerHTML = "Signup successful! Redirecting to dashboard in 3...";
+            message.innerHTML = "Signup successful! Redirecting to dashboard...";
             
+            clearLocalStorage();
             localStorage.setItem("currentUser", username);
+            localStorage.setItem("numStrings", 0);
+            
             
             setTimeout(() => {
                 form.reset();
-                message.innerHTML = "";
                 window.location.href = "dashboard.html"; 
-            }, 3000);
-
-            setTimeout(() => {
-                message.innerHTML = "Signup successful! Redirecting to dashboard in 1...";
-            }, 2000);
-
-            setTimeout(() => {
-                message.innerHTML = "Signup successful! Redirecting to dashboard in 2...";
             }, 1000);
+
+            // setTimeout(() => {
+            //     message.innerHTML = "Signup successful! Redirecting to dashboard in 1...";
+            // }, 2000);
+
+            // setTimeout(() => {
+            //     message.innerHTML = "Signup successful! Redirecting to dashboard in 2...";
+            // }, 1000);
         
         } 
         else if (response.status === 409) {
@@ -58,6 +62,8 @@ async function trySignup() {
 
 async function tryLogin() {
     try {
+        message.innerHTML = "Logging in...";
+
         const username = document.getElementById("user").value;
         const password = document.getElementById("pass").value;
 
@@ -72,8 +78,9 @@ async function tryLogin() {
         const data = await response.json();
 
         if (response.status === 200) {
-            message.innerHTML = "Login successful! Redirecting to dashboard in 3...";
+            message.innerHTML = "Login successful! Redirecting to dashboard...";
             
+            clearLocalStorage();
             localStorage.setItem("currentUser", username);
 
             const strings = data.user.strings;
@@ -83,21 +90,26 @@ async function tryLogin() {
             
             setTimeout(() => {
                 form.reset();
-                message.innerHTML = "";
                 window.location.href = "dashboard.html"; 
-            }, 3000);
-
-            setTimeout(() => {
-                message.innerHTML = "Login successful! Redirecting to dashboard in 1...";
-            }, 2000);
-
-            setTimeout(() => {
-                message.innerHTML = "Login successful! Redirecting to dashboard in 2...";
             }, 1000);
+
+            // setTimeout(() => {
+            //     message.innerHTML = "Login successful! Redirecting to dashboard in 1...";
+            // }, 2000);
+
+            // setTimeout(() => {
+            //     message.innerHTML = "Login successful! Redirecting to dashboard in 2...";
+            // }, 1000);
         
         } 
         else if (response.status === 400) {
             message.innerHTML = "Invalid inputs...";
+        }
+        else if (response.status === 401) {
+            message.innerHTML = "User doesn't exist!";
+        }
+        else if (response.status === 402) {
+            message.innerHTML = "Incorrect password...";
         }
         else {
             message.innerHTML = "Login failed for some reason or other.";
@@ -109,10 +121,14 @@ async function tryLogin() {
     }
 }
 
-// function clearLocalStorage() {
-//     localStorage.removeItem("currentUser");
-//     localStorage.removeItem("userStrings");
-//     localStorage.removeItem("numStrings");
-// }
+function clearLocalStorage() {
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("userStrings");
+    localStorage.removeItem("numStrings");
+}
 
-// window.onload = clearLocalStorage;
+function redisplayWelcome() {
+    message.innerHTML = "Welcome!";
+}
+
+window.onload = redisplayWelcome();

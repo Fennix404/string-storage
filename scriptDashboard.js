@@ -1,5 +1,6 @@
 
 const API_URL = "https://s084y4k0bj.execute-api.us-east-1.amazonaws.com/manage";
+var deleting = false;
 
 function initializeDashboard() {
     const currentUser = localStorage.getItem("currentUser");
@@ -29,9 +30,7 @@ function initializeDashboard() {
         return;
     }
 
-    for (let i = 0; i < numStrings; i++) {
-        stringsList.innerHTML += `<li>${userStrings[i]} <button onclick="deleteString(${i})">Delete</button></li>`;
-    }
+    buildTheList();
 }
 
 function updateDashboard() {
@@ -46,9 +45,7 @@ function updateDashboard() {
         return;
     }
 
-    for (let i = 0; i < numStrings; i++) {
-        stringsList.innerHTML += `<li>${userStrings[i]} <button onclick="deleteString(${i})">Delete</button></li>`;
-    }
+    buildTheList();
 }
 
 async function addString() {
@@ -63,6 +60,8 @@ async function addString() {
             return;
         }
 
+        statusMsg.innerHTML = "Adding " + newString + "..."
+
         const response = await fetch(API_URL, {
             method: "POST",
             headers: {
@@ -74,6 +73,8 @@ async function addString() {
         const data = await response.json();
 
         if (response.status === 200) {
+            clense(data.user.username, data.user.numStrings, data.user.strings);
+            
             localStorage.setItem("userStrings", JSON.stringify(data.user.strings));
             localStorage.setItem("numStrings", data.user.numStrings);
             statusMsg.innerHTML = "String added successfully! You now have " + data.user.numStrings;
@@ -105,6 +106,8 @@ async function deleteString(index) {
         const userStrings = JSON.parse(localStorage.getItem("userStrings"));
         const stringToKill = userStrings[index];
 
+        statusMsg.innerHTML = "Deleting " + stringToKill + "..."
+
         const response = await fetch(API_URL, {
             method: "POST",
             headers: {
@@ -116,6 +119,8 @@ async function deleteString(index) {
         const data = await response.json();
 
         if (response.status === 200) {
+            clense(data.user.username, data.user.numStrings, data.user.strings);
+
             localStorage.setItem("userStrings", JSON.stringify(data.user.strings));
             localStorage.setItem("numStrings", data.user.numStrings);
             statusMsg.innerHTML = "That string is ancient history now... You now have " + data.user.numStrings;
@@ -132,11 +137,80 @@ async function deleteString(index) {
     }
 }
 
+function toggleDeleteMode() {
+
+    const currentUser = localStorage.getItem("currentUser");
+    const numStrings = localStorage.getItem("numStrings");
+    var userStrings = JSON.parse(localStorage.getItem("userStrings"));
+    const theButton = document.getElementById("masterDelete");
+
+    const stringsList = document.getElementById("strings");
+
+    if (!currentUser) {
+        return
+    }
+
+    stringsList.innerHTML = "";
+
+    if (!deleting){
+        deleting = true;
+    }
+    else {
+        deleting = false;
+    }
+
+    if (deleting) {
+        theButton.innerHTML = "Stop Deleting!"
+        buildTheList();
+    }
+    else {
+        theButton.innerHTML = "Delete Strings"
+        buildTheList();
+    }
+
+    if (numStrings == 0) {
+        stringsList.innerHTML = "No Strings!";
+    }
+}
+
+function buildTheList() {
+
+    const numStrings = localStorage.getItem("numStrings");
+    var userStrings = JSON.parse(localStorage.getItem("userStrings"));
+    const stringsList = document.getElementById("strings");
+
+    if (deleting) {
+        for (let i = 0; i < numStrings; i++) {
+            stringsList.innerHTML += `${userStrings[i]} <button onclick="deleteString(${i})">Delete</button><br>`;
+        }
+    }
+    else {
+        for (let i = 0; i < numStrings; i++) {
+            stringsList.innerHTML += `${userStrings[i]}<br>`;
+        }
+    }
+
+    if (numStrings == 0) {
+        stringsList.innerHTML = "No Strings!";
+    }
+}
+
 async function logout() {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("userStrings");
     localStorage.removeItem("numStrings");
     window.location.href = "index.html";
+}
+
+//prevents desync bugs with multiple sessions in multiple tabs
+function clense(name, num, list){
+    localStorage.removeItem("userStrings");
+    localStorage.removeItem("numStrings");
+    localStorage.removeItem("currentUser");
+
+    localStorage.setItem("currentUser", name);
+    localStorage.setItem("numStrings", num);
+    localStorage.setItem("userStrings", JSON.stringify(list));
 }
 
 window.onload = initializeDashboard;

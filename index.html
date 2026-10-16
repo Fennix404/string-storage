@@ -2,19 +2,41 @@
 <html>
 <head>
 	<title>Ghosty's Superb String Storage</title>
+    <link rel="stylesheet" type="text/css" href="sauce.css">
+    <link rel="icon" type="image/png" href="ghost-favi.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Lilita+One&family=Ojuju:wght@200..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Average+Sans&family=Freckle+Face&family=Jolly+Lodger&family=Shadows+Into+Light+Two&display=swap" rel="stylesheet">
 </head>
 <body style = "background-color: #e9ebeb">
 
-<h1 id = "title"> Ghosty's Superb String Storage </h1>
+<div id = "mainbox">
+    <h1 id = "title"> Ghosty's Superb String Storage </h1>
 
-<form id = "form">
-    USERNAME: <input type = "text" id = "user"><br>
-    PASSWORD: <input type = "text" id = "pass"><br>
-    <button type="button" id="signup" onclick="trySignup()"> Sign Up </button><br>
-    <button type="button" id="login" onclick="tryLogin()"> Log In </button>
-</form>
+    <h2><i> The most ghastly storage site in town... </i></h2>
 
-<p id = "message"> </p>
+
+    <form id = "form">
+        <p>USERNAME: <input type = "text" id = "user"><br></p>
+        <p>PASSWORD: <input type = "text" id = "pass"><br></p>
+        <div id="button-wrapperA">
+            <button class="auth"type="button" id="signup" onclick="trySignup()"> Sign Up </button>
+            <button class="auth" type="button" id="login" onclick="tryLogin()"> Log In </button>
+        </div>
+    </form>
+
+    <p id = "message"> Welcome! </p>
+
+    <img src="Ghosty2.gif" alt="Ghosty" id="ghosty" height="375"></img>
+
+    <div id="button-wrapperB">
+         <p><span>v1.0.1</span></p>
+
+        <a href="./about.html"><button> About </button></a>
+        <a href="./patchnotes.html"><button> Patch History </button></a>
+    </div>
+
+</div>
 
 <script src="script.js"></script>
 

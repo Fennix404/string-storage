@@ -1,0 +1,99 @@
+#mainbox {
+    background-color: #f5f5f5;
+    padding: 5px;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+}
+
+h1 {
+    color: black;
+    font-family: Freckle Face;
+    font-size: 3.0rem;
+    text-align: center;
+}
+
+h2 {
+    color: black;
+    font-family: Average Sans;
+    font-size: 1.5rem;
+    font-weight: 300;
+    text-align: center;
+}
+
+p {
+    color: black;
+    font-family: Average Sans;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+input {
+    font-family: Average Sans;
+    font-size: 1.2rem;
+    margin-left: 10px;
+    padding: 2.5px;
+}
+
+button {
+    font-family: Average Sans;
+    font-size: 1.2rem;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+#button-wrapperA {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 24px;
+  padding-bottom: 5px;
+}
+
+#button-wrapperB {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  gap: 12px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  align-items: baseline;
+}
+
+#ghosty {
+    display: block;
+    margin: auto;
+}
+
+#aboutblurb {
+    margin-left: 8rem;
+    margin-right: 8rem;
+}
+
+#stringsbox {
+    background-color: #e9ebeb;
+    padding: 5px;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+}
+
+#pfp {
+    display: block;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+hr {
+    background-color: black;
+    margin-left: 150px;
+    margin-right: 150px;
+    border: none;
+    height: 1.5px;
+}
+
+span {
+    text-align: left;
+}
