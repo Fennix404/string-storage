@@ -27,20 +27,21 @@ async function trySignup() {
             clearLocalStorage();
             localStorage.setItem("currentUser", username);
             localStorage.setItem("numStrings", 0);
+
+            localStorage.setItem("timesLoggedOn", 1);
+            localStorage.setItem("totalAdded", 0);
+            localStorage.setItem("totalDeleted", 0);
+            localStorage.setItem("stringCapacity", 16);
+            localStorage.setItem("title", data.user.title);
+            localStorage.setItem("achievements", JSON.stringify(data.user.achievements));
             
+            localStorage.setItem("userPFP", "");
             
             setTimeout(() => {
                 form.reset();
                 window.location.href = "dashboard.html"; 
             }, 1000);
 
-            // setTimeout(() => {
-            //     message.innerHTML = "Signup successful! Redirecting to dashboard in 1...";
-            // }, 2000);
-
-            // setTimeout(() => {
-            //     message.innerHTML = "Signup successful! Redirecting to dashboard in 2...";
-            // }, 1000);
         
         } 
         else if (response.status === 409) {
@@ -87,19 +88,22 @@ async function tryLogin() {
             const numStrings = data.user.numStrings;
             localStorage.setItem("userStrings", JSON.stringify(strings));
             localStorage.setItem("numStrings", numStrings ?? 0);
+
+            localStorage.setItem("timesLoggedOn", data.user.timesLoggedOn ?? 2);
+            localStorage.setItem("totalAdded", data.user.totalAdded ?? 0);
+            localStorage.setItem("totalDeleted", data.user.totalDeleted ?? 0);
+            localStorage.setItem("stringCapacity", data.user.stringCapacity ?? 16);
+            localStorage.setItem("title", data.user.title);
+            localStorage.setItem("achievements", JSON.stringify(data.user.achievements));
+
+            localStorage.setItem("userPFP", data.user.pfpUrl || "");
+
             
             setTimeout(() => {
                 form.reset();
                 window.location.href = "dashboard.html"; 
             }, 1000);
 
-            // setTimeout(() => {
-            //     message.innerHTML = "Login successful! Redirecting to dashboard in 1...";
-            // }, 2000);
-
-            // setTimeout(() => {
-            //     message.innerHTML = "Login successful! Redirecting to dashboard in 2...";
-            // }, 1000);
         
         } 
         else if (response.status === 400) {
@@ -125,6 +129,13 @@ function clearLocalStorage() {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("userStrings");
     localStorage.removeItem("numStrings");
+
+    localStorage.removeItem("timesLoggedOn");
+    localStorage.removeItem("totalDeleted");
+    localStorage.removeItem("totalAdded");
+    localStorage.removeItem("stringCapacity");
+    localStorage.removeItem("title");
+    localStorage.removeItem("achievements");
 }
 
 function redisplayWelcome() {

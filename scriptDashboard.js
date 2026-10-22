@@ -1,11 +1,16 @@
 
 const API_URL = "https://s084y4k0bj.execute-api.us-east-1.amazonaws.com/manage";
 var deleting = false;
+var deletingALL = false;
+var del1;
+var del2;
+var del3;
 
 function initializeDashboard() {
     const currentUser = localStorage.getItem("currentUser");
     const numStrings = localStorage.getItem("numStrings");
     var userStrings = localStorage.getItem("userStrings");
+    const userpfp = localStorage.getItem("userPFP");
 
     if (!currentUser || numStrings === null) {
         window.location.href = "index.html";
@@ -24,7 +29,18 @@ function initializeDashboard() {
 
     const stringsList = document.getElementById("strings");
     stringsList.innerHTML = "";
-    
+
+    const pfpelement = document.getElementById("pfp");
+    if (!(userpfp.trim().length === 0)){
+        pfpelement.src = `${userpfp}?t=${Date.now()}`;
+        pfpelement.onload = function() {
+            pfpelement.style.opacity = "1";
+        };
+    }
+    else {
+        pfpelement.style.opacity = "1";
+    }
+
     if (numStrings == 0) {
         stringsList.innerHTML = "No Strings!";
         return;
@@ -49,13 +65,14 @@ function updateDashboard() {
 }
 
 async function addString() {
+    clearTimers();
     const statusMsg = document.getElementById("status");
 
     try {
         const newString = document.getElementById("newString").value;
         const username = localStorage.getItem("currentUser");
 
-        if (!newString) {
+        if (!newString || newString.trim().length === 0) {
             statusMsg.innerHTML = "Fah! I won't deal with empty strings! Away with you!";
             return;
         }
@@ -77,6 +94,8 @@ async function addString() {
             
             localStorage.setItem("userStrings", JSON.stringify(data.user.strings));
             localStorage.setItem("numStrings", data.user.numStrings);
+            localStorage.setItem("totalAdded", data.user.totalAdded);
+            localStorage.setItem("achievements", JSON.stringify(data.user.achievements));
             statusMsg.innerHTML = "String added successfully! You now have " + data.user.numStrings;
             updateDashboard();
         } 
@@ -99,6 +118,7 @@ async function addString() {
 }
 
 async function deleteString(index) {
+    clearTimers();
     const statusMsg = document.getElementById("status");
 
     try {
@@ -123,6 +143,8 @@ async function deleteString(index) {
 
             localStorage.setItem("userStrings", JSON.stringify(data.user.strings));
             localStorage.setItem("numStrings", data.user.numStrings);
+            localStorage.setItem("totalDeleted", data.user.totalDeleted);
+            localStorage.setItem("achievements", JSON.stringify(data.user.achievements));
             statusMsg.innerHTML = "That string is ancient history now... You now have " + data.user.numStrings;
             updateDashboard();
         } 
@@ -137,11 +159,154 @@ async function deleteString(index) {
     }
 }
 
+async function deleteAllStrings() {
+    const statusMsg = document.getElementById("status");
+    const numStrings = localStorage.getItem("numStrings");
+
+    if (numStrings == 0){
+        statusMsg.innerHTML = "Eh? You've got nothing to delete!"
+        return;
+    }
+
+    toggleDeletingAllChanges();
+    if (!deletingALL){
+        if (numStrings == 1){
+            statusMsg.innerHTML = "Changed your mind, eh? Your precious " + numStrings + " string lives to see another day";
+            return;
+        }
+        statusMsg.innerHTML = "Changed your mind, eh? Your " + numStrings + " strings live to see another day";
+        return;
+    }
+
+    try {
+        statusMsg.innerHTML = "Deleting all your strings in 3..."
+
+        del1 = setTimeout(() => {
+            statusMsg.innerHTML = "Deleting all your strings in 2...";
+        }, 1000);
+
+        del2 = setTimeout(() => {
+            statusMsg.innerHTML = "Deleting all your strings in 1...";
+        }, 2000);
+
+         del3 = setTimeout(() => {
+            deleteAllStringsForReal();
+        }, 3000);
+
+    } catch (error) {
+        console.error("Network Error:", error);
+        statusMsg.innerHTML = "All strings couldn't be deleted...";
+    }
+}
+
+async function deleteAllStringsForReal() {
+    const statusMsg = document.getElementById("status");
+
+    try {
+        const username = localStorage.getItem("currentUser");
+
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username, action: "DELETEALL" })
+        });
+
+        const data = await response.json();
+
+        if (response.status === 200) {
+            clense(data.user.username, data.user.numStrings, data.user.strings);
+
+            localStorage.setItem("userStrings", JSON.stringify(data.user.strings));
+            localStorage.setItem("numStrings", data.user.numStrings);
+            localStorage.setItem("totalDeleted", data.user.totalDeleted);
+            localStorage.setItem("achievements", JSON.stringify(data.user.achievements));
+            statusMsg.innerHTML = "Nothing like a fresh start eh? You now have " + data.user.numStrings + " strings... obviously";
+            toggleDeletingAllChanges();
+            updateDashboard();
+        } 
+        
+        else {
+            statusMsg.innerHTML = "Couldn't delete all strings...";
+        }
+
+    } catch (error) {
+        console.error("Network Error:", error);
+        statusMsg.innerHTML = "Couldn't delete all strings...";
+    }
+}
+
+async function sortStrings(action2) {
+    clearTimers();
+    const statusMsg = document.getElementById("status");
+    const numStrings = localStorage.getItem("numStrings");
+
+    if (numStrings == 0){
+        statusMsg.innerHTML = "Huh? But you don't have any strings...";
+        return;
+    }
+
+    try {
+        const username = localStorage.getItem("currentUser");
+        const oldStrings = JSON.parse(localStorage.getItem("userStrings"));
+
+        if (action2 == "ALPHA"){
+            statusMsg.innerHTML = "Sorting alphabetically...";
+        }
+        else if (action2 == "LENGTH"){
+            statusMsg.innerHTML = "Sorting by length...";
+        }
+        else {
+            statusMsg.innerHTML = "an illegal method was used. we will remember that.";
+        }
+
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username, action: "SORT", action2 })
+        });
+
+        const data = await response.json();
+
+        if (response.status === 200) {
+            clense(data.user.username, data.user.numStrings, data.user.strings);
+
+            localStorage.setItem("userStrings", JSON.stringify(data.user.strings));
+            localStorage.setItem("numStrings", data.user.numStrings);
+
+            if (JSON.stringify(oldStrings) === JSON.stringify(data.user.strings)){
+                statusMsg.innerHTML = "Huh, looks like the sorting didn't do anything... you still have " + data.user.numStrings + " strings";
+            }
+            else if (action2 == "ALPHA"){
+                statusMsg.innerHTML = "Sorted alphabetically! Look at them all in line... you still have " + data.user.numStrings + " strings, naturally";
+            }
+            else if (action2 == "LENGTH"){
+                statusMsg.innerHTML = "Sort by length complete! Isn't that an appealing sight? You still have " + data.user.numStrings + " strings, of course";
+            }
+            else {
+                statusMsg.innerHTML = "this message should never appear";
+            }
+
+            updateDashboard();
+        } 
+        
+        else {
+            statusMsg.innerHTML = "Strings couldn't be sorted...";
+        }
+
+    } catch (error) {
+        console.error("Network Error:", error);
+        statusMsg.innerHTML = "Your strings are stuck unsorted for now...";
+    }
+}
+
 function toggleDeleteMode() {
 
     const currentUser = localStorage.getItem("currentUser");
     const numStrings = localStorage.getItem("numStrings");
-    var userStrings = JSON.parse(localStorage.getItem("userStrings"));
     const theButton = document.getElementById("masterDelete");
 
     const stringsList = document.getElementById("strings");
@@ -173,6 +338,32 @@ function toggleDeleteMode() {
     }
 }
 
+function toggleDeletingAllChanges() {
+    const currentUser = localStorage.getItem("currentUser");
+    const numStrings = localStorage.getItem("numStrings");
+    const theButton = document.getElementById("deleteAll");
+
+    if (!currentUser) {
+        return
+    }
+
+    if (!deletingALL){
+        deletingALL = true;
+    }
+    else {
+        deletingALL = false;
+        clearTimers();
+    }
+
+    if (deletingALL) {
+        theButton.innerHTML = "Cancel Deletion!"
+    }
+    else {
+        theButton.innerHTML = "Delete All Strings"
+    }
+
+}
+
 function buildTheList() {
 
     const numStrings = localStorage.getItem("numStrings");
@@ -199,6 +390,7 @@ async function logout() {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("userStrings");
     localStorage.removeItem("numStrings");
+    localStorage.removeItem("userPFP");
     window.location.href = "index.html";
 }
 
@@ -211,6 +403,16 @@ function clense(name, num, list){
     localStorage.setItem("currentUser", name);
     localStorage.setItem("numStrings", num);
     localStorage.setItem("userStrings", JSON.stringify(list));
+}
+
+function clearTimers() {
+    const theButton = document.getElementById("deleteAll");
+    theButton.innerHTML = "Delete All Strings"
+    deletingALL = false;
+
+    clearTimeout(del1);
+    clearTimeout(del2);
+    clearTimeout(del3);
 }
 
 window.onload = initializeDashboard;

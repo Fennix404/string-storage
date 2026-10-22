@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ghosty's Superb String Storage</title>
+	<link rel="stylesheet" type="text/css" href="sauce.css">
+    <link rel="icon" type="image/png" href="ghost-favi.png">
+	<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Lilita+One&family=Ojuju:wght@200..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Average+Sans&family=Freckle+Face&family=Jolly+Lodger&family=Shadows+Into+Light+Two&display=swap" rel="stylesheet">
+</head>
+<body style = "background-color: #e9ebeb">
+
+<div id="mainbox">
+	<h1 id = "title"> Profile </h1>
+
+	<img src="defaultpfp.jpg" id="pfp" width="140" height="140" style="opacity: 0;"></img>
+
+	<p id = "status"><i> String Squire </i></p>
+
+	<div class="statsbox">
+		<p>Stats:</p>
+		<hr>
+		<p id="statslist"> 
+			Current Strings: - <br>
+			Total Strings Added: - <br>
+            Total Strings Deleted: - <br>
+            Total Logins: - <br>
+            String Capacity: - 
+		</p>
+	</div>
+
+	<div class="statsbox">
+		<p>Achievements:</p>
+		<hr>
+		<p id="achlist"> - </p>
+	</div>
+
+	<div class="statsbox">
+		<img src="GhostyT.gif" alt="Ghosty" id="smallghosty" height="85"></img>
+		<p>Ghosty's Tab</p>
+		<hr>
+		<p id="ghostystab"> This is your profile, naturally. I'll help you with those buttons on the bottom </p>
+	</div>
+
+	<div id="button-wrapperC">
+        <button type="button" id="appraise" onclick="appraiseStrings()"> Appraise Strings </button>
+		<button type="button" id="settitle" onclick="toggleSetMode()"> Set Title </button>
+		<button type="button" id="pfpbutton" onclick="openFile()"> Change Profile Picture </button>
+		<button type="button" id="deleteUser" onclick="deleteUserCountdown()"> Delete Account </button>
+    </div>
+
+	<div id="button-wrapperB">
+        <p><span>v1.2.0</span></p>
+
+		<a href="./dashboard.html"><button> Dashboard </button></a>
+		<button type="button" id="logoutButton" onclick="logout()"> Log Out </button>
+    </div>
+
+</div>
+
+<input type="file" id="filePicker" accept="image/png, image/jpeg, image/jpg" style="display: none;" onchange="uploadPFP(this.files)">
+<script src="scriptProfile.js"></script>
+
+</body>
+</html>

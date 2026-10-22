@@ -61,9 +61,23 @@ button {
   align-items: baseline;
 }
 
+#button-wrapperC {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  padding-bottom: 5px;
+}
+
 #ghosty {
     display: block;
     margin: auto;
+}
+
+#smallghosty {
+    display: block;
+    margin: auto;
+    margin-bottom: -25px;
 }
 
 #aboutblurb {
@@ -80,13 +94,45 @@ button {
     margin-bottom: 0.5%;
 }
 
+.statsbox {
+    background-color: #e9ebeb;
+    padding: 5px;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+}
+
 #pfp {
     display: block;
     margin: auto;
     margin-bottom: 10px;
 }
 
+#statsbox {
+    display: flex;
+    flex-direction: row;  
+    gap: 20px;  
+    width: 100%;
+    background-color: #f5f5f5;
+}
+
+#leftbox, #rightbox {
+    flex: 1;
+    background-color: #e9ebeb;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
 hr {
+    background-color: black;
+    margin-left: 150px;
+    margin-right: 150px;
+    border: none;
+    height: 1.5px;
+}
+
+.doublehr {
     background-color: black;
     margin-left: 150px;
     margin-right: 150px;

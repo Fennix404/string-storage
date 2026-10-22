@@ -16,7 +16,7 @@
 
 	<div id="stringsbox">
 		<p>
-			<img src="defaultpfp.jpg" id="pfp" width="100" height="100"></img>
+			<img src="defaultpfp.jpg" id="pfp" width="100" height="100" style="opacity: 0;"></img>
 			Your Strings: 
 		</p>
 		<hr>
@@ -30,11 +30,17 @@
 			<button type="button" id = "masterDelete" onclick="toggleDeleteMode()"> Delete Strings </button>
 		</p>
 	</form>
+
+	<div id="button-wrapperC">
+        <button type="button" onclick="sortStrings('ALPHA')"> Sort Alphabetically </button>
+		<button type="button" onclick="sortStrings('LENGTH')"> Sort by Length </button>
+		<button type="button" id="deleteAll" onclick="deleteAllStrings()"> Delete All Strings </button>
+    </div>
 	    
 	<div id="button-wrapperB">
-        <p><span>v1.0.1</span></p>
+        <p><span>v1.2.0</span></p>
 
-		<a href="./profile"><button> Profile </button></a>
+		<a href="./profile.html"><button> Profile </button></a>
 		<button type="button" id="logoutButton" onclick="logout()"> Log Out </button>
     </div>
 </div>
