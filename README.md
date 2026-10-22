@@ -1,4 +1,4 @@
-# String Storage
+# String Storage (v1.2.0)
 what be this appth you speak of???
 
 Basic site that lets users store strings and gawk at them. add and delete to your hearts content! yet another serverless full stack web app, a bit more complex than visitor counter 010 if you saw last episode
@@ -26,3 +26,5 @@ Basic site that lets users store strings and gawk at them. add and delete to you
 
 
 #### the link; https://main.d2kb5cw3bw7uzb.amplifyapp.com/
+
+
