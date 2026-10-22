@@ -16,7 +16,7 @@ Basic site that lets users store strings and gawk at them. add and delete to you
 
 * Amplify - where the site is hosted...
 
-#### Fronted
+#### Frontend
 
 * HTML - the usual
 
